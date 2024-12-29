@@ -108,7 +108,6 @@ export const addTrack = async (
   try {
     const { artist_id, album_id, name, duration, hidden } = req.body;
 
-    // Verify artist and album belong to organization
     const artistCheck = await pool.query(
       "SELECT * FROM artists WHERE artist_id = $1 AND org_id = $2",
       [artist_id, req.user?.org_id]

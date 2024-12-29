@@ -74,7 +74,6 @@ export const addFavorite = async (
       });
     }
 
-    // Verify item exists and belongs to organization
     let itemExists;
     switch (category) {
       case "artist":

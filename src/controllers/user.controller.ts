@@ -102,7 +102,6 @@ export const deleteUser = async (
   try {
     const userId = req.params.id;
 
-    // Check if user exists
     const userExists = await pool.query(
       "SELECT * FROM users WHERE user_id = $1 AND org_id = $2",
       [userId, req.user?.org_id]
@@ -117,7 +116,6 @@ export const deleteUser = async (
       });
     }
 
-    // Check if trying to delete an admin
     if (userExists.rows[0].role === "admin") {
       return res.status(403).json({
         status: 403,

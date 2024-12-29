@@ -4,7 +4,6 @@ const createTables = async () => {
   try {
     await pool.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`);
 
-    // Organizations table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS organizations (
         org_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -13,7 +12,6 @@ const createTables = async () => {
       );
     `);
 
-    // Users table with organization reference
     await pool.query(`
       CREATE TABLE IF NOT EXISTS users (
         user_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -25,7 +23,6 @@ const createTables = async () => {
       );
     `);
 
-    // Artists table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS artists (
         artist_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -37,7 +34,6 @@ const createTables = async () => {
       );
     `);
 
-    // Albums table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS albums (
         album_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -49,7 +45,6 @@ const createTables = async () => {
       );
     `);
 
-    // Tracks table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS tracks (
         track_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -62,7 +57,6 @@ const createTables = async () => {
       );
     `);
 
-    // Favorites table
     await pool.query(`
       CREATE TABLE IF NOT EXISTS favorites (
         favorite_id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -73,7 +67,6 @@ const createTables = async () => {
       );
     `);
 
-    // Create indexes for better performance
     await pool.query(`
       CREATE INDEX IF NOT EXISTS idx_users_org_id ON users(org_id);
       CREATE INDEX IF NOT EXISTS idx_artists_org_id ON artists(org_id);

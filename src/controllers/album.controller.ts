@@ -93,7 +93,6 @@ export const addAlbum = async (
   try {
     const { artist_id, name, year, hidden } = req.body;
 
-    // Verify artist belongs to organization
     const artistCheck = await pool.query(
       "SELECT * FROM artists WHERE artist_id = $1 AND org_id = $2",
       [artist_id, req.user?.org_id]

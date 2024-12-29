@@ -22,7 +22,6 @@ export const signup: RequestHandler<{}, ApiResponse, SignupRequest> = async (
       });
     }
 
-    // Check if email exists
     const userExists = await pool.query(
       "SELECT * FROM users WHERE email = $1",
       [email]
@@ -41,20 +40,16 @@ export const signup: RequestHandler<{}, ApiResponse, SignupRequest> = async (
       ? req.body.organization
       : "Default Test Organization";
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create organization first
     const org = await pool.query(
       "INSERT INTO organizations (name) VALUES ($1) RETURNING org_id",
       [organization]
     );
 
-    // Check if this is the first user (will be admin)
     const allUsers = await pool.query("SELECT * FROM users");
     const role = allUsers.rows.length === 0 ? "admin" : "viewer";
 
-    // Create user
     const result = await pool.query(
       "INSERT INTO users (email, password, role, org_id) VALUES ($1, $2, $3, $4) RETURNING user_id",
       [email, hashedPassword, role, org.rows[0].org_id]

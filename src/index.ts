@@ -22,7 +22,6 @@ app.use("/", albumRoutes);
 app.use("/", trackRoutes);
 app.use("/", favoriteRoutes);
 
-// Test database connection
 pool.query("SELECT NOW()", (err, res) => {
   if (err) {
     console.log("Database connection failed");
