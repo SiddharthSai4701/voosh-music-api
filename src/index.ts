@@ -15,12 +15,12 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app.use(express.json());
-app.use("/", authRoutes);
-app.use("/", userRoutes);
-app.use("/", artistRoutes);
-app.use("/", albumRoutes);
-app.use("/", trackRoutes);
-app.use("/", favoriteRoutes);
+app.use("/api/v1", authRoutes);
+app.use("/api/v1", userRoutes);
+app.use("/api/v1", artistRoutes);
+app.use("/api/v1", albumRoutes);
+app.use("/api/v1", trackRoutes);
+app.use("/api/v1", favoriteRoutes);
 
 pool.query("SELECT NOW()", (err, res) => {
   if (err) {
