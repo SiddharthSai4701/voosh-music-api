@@ -13,7 +13,7 @@ const router = Router();
 router.get("/tracks", authMiddleware, getAllTracks);
 router.get("/tracks/:id", authMiddleware, getTrack);
 router.post("/tracks/add-track", authMiddleware, addTrack);
-router.put("/tracks/:id", authMiddleware, updateTrack);
+router.patch("/tracks/:id", authMiddleware, updateTrack);
 router.delete("/tracks/:id", authMiddleware, deleteTrack);
 
 export default router;

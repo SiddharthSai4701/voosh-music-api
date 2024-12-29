@@ -13,6 +13,6 @@ router.get("/users", authMiddleware, getAllUsers);
 router.post("/users/add-user", authMiddleware, addUser);
 
 router.delete("/users/:id", authMiddleware, deleteUser);
-router.put("/users/update-password", authMiddleware, updatePassword);
+router.patch("/users/update-password", authMiddleware, updatePassword);
 
 export default router;
