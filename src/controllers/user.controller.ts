@@ -50,6 +50,17 @@ export const addUser: RequestHandler<{}, ApiResponse, AddUserRequest> = async (
   try {
     const { email, password, role } = req.body;
 
+    // Check if the current user is an admin
+    if(req.user?.role !== "admin" ){
+      res.status(403).json({
+        status: 403,
+        data: null,
+        message: "Forbidden - You are not authorized to create users",
+        error: null,
+      });
+      return;
+    }
+
     if (role === "admin") {
       res.status(403).json({
         status: 403,
