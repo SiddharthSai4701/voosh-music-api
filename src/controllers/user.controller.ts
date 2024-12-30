@@ -19,11 +19,12 @@ export const getAllUsers: RequestHandler<{}, UserResponse> = async (
     const params = [req.user?.org_id];
 
     if (role) {
+      let roleToBeRetrieved = role as string;
       query += ` AND role = $2`;
-      params.push(role as string);
+      params.push(roleToBeRetrieved.toLowerCase());
     }
 
-    query += ` LIMIT ${params.length + 1} OFFSET ${params.length + 2}`;
+    query += ` LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
     params.push(limit as string, offset as string);
 
     const users = await pool.query(query, params);
@@ -65,7 +66,7 @@ export const addUser: RequestHandler<{}, ApiResponse, AddUserRequest> = async (
       res.status(403).json({
         status: 403,
         data: null,
-        message: "Cannot create admin users",
+        message: "Forbidden Access/Operation not allowed. Cannot create admin users",
         error: null,
       });
       return;
@@ -112,6 +113,17 @@ export const deleteUser = async (
 ): Promise<any> => {
   try {
     const userId = req.params.id;
+
+    // Check if the current user is an admin
+    if (req.user?.role !== "admin") {
+      res.status(403).json({
+        status: 403,
+        data: null,
+        message: "Forbidden - You are not authorized to delete users",
+        error: null,
+      });
+      return;
+    }
 
     const userExists = await pool.query(
       "SELECT * FROM users WHERE user_id = $1 AND org_id = $2",
