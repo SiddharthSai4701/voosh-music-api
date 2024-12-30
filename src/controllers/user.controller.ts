@@ -183,12 +183,7 @@ export const updatePassword = async (
     );
 
     if (!isValidPassword) {
-      return res.status(400).json({
-        status: 400,
-        data: null,
-        message: "Invalid old password.",
-        error: null,
-      });
+      return res.status(400).send();
     }
 
     const hashedPassword = await bcrypt.hash(new_password, 10);
@@ -199,11 +194,6 @@ export const updatePassword = async (
 
     res.status(204).send();
   } catch (error) {
-    res.status(400).json({
-      status: 400,
-      data: null,
-      message: "Bad Request",
-      error: null,
-    });
+    res.status(400).send();
   }
 };
