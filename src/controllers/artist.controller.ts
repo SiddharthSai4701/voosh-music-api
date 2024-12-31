@@ -16,16 +16,16 @@ export const getAllArtists = async (
     const params = [req.user?.org_id];
 
     if (grammy !== undefined) {
-      query += ` AND grammy = ${params.length + 1}`;
+      query += ` AND grammy = $${params.length + 1}`;
       params.push(grammy);
     }
 
     if (hidden !== undefined) {
-      query += ` AND hidden = ${params.length + 1}`;
+      query += ` AND hidden = $${params.length + 1}`;
       params.push(hidden === "true" ? "true" : "false");
     }
 
-    query += ` LIMIT ${params.length + 1} OFFSET ${params.length + 2}`;
+    query += ` LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
     params.push(limit as string, offset as string);
 
     const artists = await pool.query(query, params);
