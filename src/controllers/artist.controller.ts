@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { pool } from "../config/database";
 import { AuthRequest } from "../middleware/auth";
-import { ArtistModel } from '../models/artist.model';
 
 export const getAllArtists = async (
   req: AuthRequest,
@@ -89,8 +88,10 @@ export const addArtist = async (
 ): Promise<any> => {
   try {
     const { name, grammy, hidden } = req.body;
-    const orgId = req.user?.org_id;
-    await ArtistModel.create(name, grammy, hidden, orgId);
+    await pool.query(
+      "INSERT INTO artists (name, grammy, hidden, org_id) VALUES ($1, $2, $3, $4)",
+      [name, grammy, hidden, req.user?.org_id]
+    );
 
     res.status(201).json({
       status: 201,
@@ -107,6 +108,7 @@ export const addArtist = async (
     });
   }
 };
+
 export const updateArtist = async (
   req: AuthRequest,
   res: Response
